@@ -2,30 +2,33 @@
 include_once 'src/Epi.php';
 include_once 'classes/class.players.php';
 include_once 'classes/class.league.php';
+include_once 'classes/class.teams.php';
 include_once 'classes/class.draftselection.php';
 include_once 'classes/class.statuscodes.php';
+
 require('lib/Pusher.php');
 
 Epi::setPath('base', 'src');
-Epi::init('api','database');
-EpiDatabase::employ('mysql','draftapp','localhost','root','');
+Epi::init('route', 'api','database');
+EpiDatabase::employ('mysql','draftapp','localhost','draftapp_db','swdfw');
 
 Epi::init('api');
-getApi()->get('/ImportPlayers.xml', array('Site', 'ImportPlayers'), EpiApi::external);
-getApi()->get('/players.json', array('API', 'getAllPlayers'), EpiApi::external);
-getApi()->get('/players/(\d+).json', array('API', 'getPlayer'), EpiApi::external);
-getApi()->get('/teams/(\d+)/getPlayers.json', array('API', 'getTeamPlayers'), EpiApi::external);
-getApi()->get('/teams/(\d+)/draftPlayer.json', array('API', 'draftPlayer'), EpiApi::external);
-getApi()->get('/league/(\d+)/getDraftPicks.json', array('API', 'getAllDraftPicks'), EpiApi::external);
-getApi()->get('/league/(\d+)/getTeams.json', array('API', 'getTeams'), EpiApi::external);
+getRoute()->get('/ImportPlayers.xml', array('Site', 'ImportPlayers'));
+getRoute()->get('/players.json', array('API', 'getAllPlayers'));
+getRoute()->get('/players/(\d+).json', array('API', 'getPlayer'));
+getRoute()->get('/teams/(\d+)/getPlayers.json', array('API', 'getTeamPlayers'));
+getRoute()->post('/teams/(\d+)/draftPlayer.json', array('API', 'draftPlayer'));
+getRoute()->get('/league/(\d+)/getDraftPicks.json', array('API', 'getAllDraftPicks'));
+getRoute()->get('/league/(\d+)/getTeams.json', array('API', 'getTeams'));
 getRoute()->get('/', array('Site', 'home'));
 getRoute()->run();
 
 class Site {
 
 	static public function home(){
-		$pusher = new Pusher('3622b085f13686b6ab57', '3622b085f13686b6ab57', '6065');
-		$pusher->trigger('my-channel', 'my_event', 'hello world');
+		
+		echo 'hello world';
+		
 	}
 	
 	static public function ImportPlayers(){
@@ -83,20 +86,26 @@ class API {
 	
 	static public function draftPlayer($id){
 		
-		$playerid = $_GET['player_id'];
-		$leagueid = $_GET['league_id'];
+		$playerid = $_POST["player_id"];
+		$leagueid = $_POST["league_id"];
 		$timestamp = date("Y-m-d H:i:s", time());
-		$round = $_GET['round'];
-		$slot = $_GET['slot'];
-			
+		$round = $_POST["round"];
+		$slot = $_POST["slot"];
+		
+		$StatusCode = new StatusCodes();
+
 		if(Player::isPlayerAvailable($playerid, $leagueid)){
 			$draftPick = new DraftSelection($id, $playerid, $leagueid, $timestamp, $round, $slot);
 			$pickid = $draftPick->insertDraftSelection();
-			
-			$pusher = new Pusher('3622b085f13686b6ab57', '3622b085f13686b6ab57', '6065');
-			$pusher->trigger('draftroom-'.$leagueid, 'drafted', 'hello world', true);
+			header($StatusCode->httpHeaderFor('200'));
+			$pickInfo = DraftSelection::getDraftSelection($pickid);
+			$pusher = new Pusher('8aab2b64a30d6d627644', '3622b085f13686b6ab57', '6065');
+			$pusher->trigger('draftroom-'.$leagueid, 'PlayerDrafted', $pickInfo);
 		}else{
-			echo "Player taken";
+			header('Content-Type: application/json');
+			header($StatusCode->httpHeaderFor('401'));
+			echo json_encode(array('error' => 'Player taken.'));
+			exit;
 		}		
 	}
 	
@@ -108,8 +117,9 @@ class API {
 	}
 	
 	static public function getTeams($id){
-
-
+		$teams = Team::getTeamByLeague($id);
+		header('Content-Type: application/json');
+		echo json_encode($teams);	
 	}
 	
 	

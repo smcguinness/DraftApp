@@ -168,7 +168,7 @@ a:hover { color: #036; }
 					
 					}
 					
-					#currentPickBox img.teamPic, #onDeckBox img.teamPic {
+					#currentPickBox div.teamPic, #onDeckBox div.teamPic {
 					float:left;
 					width:75px;
 					height:75px;
