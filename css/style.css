@@ -97,7 +97,7 @@ a:hover { color: #036; }
 /* /font */
 
 	body {
-	background:rgba(0,0,0,.95);
+	background:rgba(0,0,0,1);
 	font-family:"anivers-1","anivers-2";
 	}
 	
@@ -106,7 +106,7 @@ a:hover { color: #036; }
 	header {
 		height:125px;
 		margin-bottom:10px;
-		display:none;		}
+		background:url('images/headerBG.png') repeat-x;		}
 		
 		
 	section {}
@@ -118,21 +118,24 @@ a:hover { color: #036; }
 		}
 	
 			section #pickInfo .infoBox {
-			background:rgba(255,255,255,.1);
+			background: url('images/texture.png') left top repeat,
+			url('images/boxGradient.png') right top no-repeat #2d2d2d;
 			min-height:175px;
-			-webkit-border-radius:15px;
-			-moz-border-radius:15px;
-			border-radius:15px;		}
+			-moz-box-shadow:inset 0 0 2px rgba(255,255,255,1);
+			-webkit-box-shadow:inset 0 0 2px rgba(255,255,255,1);
+			-moz-border-radius: 15px;
+			-webkit-border-radius: 15px;
+					}
 				
 				/* the clock */
 				#pickInfo #clock {}
 				
 					#clock p {
-					color:yellow;
-					opacity:.7;
+					color:white;
 					text-align:center;
 					font-family: "scoreboard", arial;
-					font-size:7.0em;					
+					font-size:7.0em;
+					text-shadow:2px 2px 3px #000;					
 					}
 					
 					p#round, p#pick{
@@ -142,13 +145,14 @@ a:hover { color: #036; }
 					font-size:2.5em;
 					text-align:center;
 					color:rgba(255,255,255,.9);
+					text-shadow:2px 2px 3px #000;
 					}
 					
 						p#round i, p#pick i {
 						font-style:normal;
 						padding:0 5px;
-						color:#yellow;
-						opacity:.7;
+						color:#fff;
+						text-shadow:2px 2px 3px #000;
 						background:background:rgba(255,255,255,.1);
 						}
 						
@@ -156,7 +160,7 @@ a:hover { color: #036; }
 				
 				
 				#pickInfo #currentPickBox, #pickInfo #onDeckBox  {
-					color:rgba(255,255,255,.8);
+					color:rgba(255,255,255,1);
 					}
 					
 					#currentPickBox {}
@@ -164,7 +168,8 @@ a:hover { color: #036; }
 					#pickInfo #currentPickBox h2, #onDeckBox h2 {
 					text-align:left;
 					font-size:2.5em;
-					margin:0 0 10px 10px;
+					margin:10px 0 10px 10px;
+					text-shadow:2px 2px 3px #000;
 					
 					}
 					
@@ -177,7 +182,8 @@ a:hover { color: #036; }
 					#currentPickBox p.teamName, #onDeckBox p.teamName {
 					font-size:2.1em;
 					margin-left:10px;
-					line-height:1.6em;}
+					line-height:1.6em;
+					text-shadow:2px 2px 3px #000}
 					
 					#currentPickBox p.userName, #onDeckBox p.userName {
 					font-size:1.5em;
@@ -189,10 +195,11 @@ a:hover { color: #036; }
 					float:left;
 					display:block;
 					text-align:center;
-					line-height:1.7em;
+					line-height:1.5em;
 					font-size:2.3em;
-					color:rgba(255,0,0,.6);
-					letter-spacing: .1em;}
+					color:rgba(255,0,0,.8);
+					letter-spacing: .1em;
+					text-shadow:1px 1px 2px #000;}
 					
 					#onDeckBox p.lastPick {
 					width:100%;
@@ -201,7 +208,7 @@ a:hover { color: #036; }
 					text-align:left;
 					line-height:1.7em;
 					font-size:1.9em;
-					color:rgba(255,255,255,.8);
+					color:rgba(255,255,255,1);
 					letter-spacing: .1em;
 					margin:0 0 0 10px;}
 					
@@ -215,16 +222,17 @@ a:hover { color: #036; }
 		
 
 		section div#boardContainer {
-			background:rgba(255,255,255,.1);
-			height:500px;
+			background: url('images/texture.png') left top repeat #2d2d2d;
 			-webkit-border-radius:15px;
 			-moz-border-radius:15px;
 			border-radius:15px;
+			-moz-box-shadow:inset 0 0 2px rgba(255,255,255,1);
+			-webkit-box-shadow:inset 0 0 2px rgba(255,255,255,1);
 		}
 		
 			section div#draftBoard {
 			width:100%;
-			height:250px;}
+			margin-bottom:10px;}
 			
 				#draftBoard #teamList {
 					list-style:none;
@@ -239,9 +247,7 @@ a:hover { color: #036; }
 					margin-top:5px;
 					padding:5px 0 5px;
 					color:#fff;
-					-webkit-box-shadow:inset 0 0 1px #fff;
-					-moz-box-shadow:inset 0 0 1px #fff;
-					box-shadow:inset 0 0 1px #fff;
+					
 					}
 					
 					#teamList li img {
@@ -251,8 +257,7 @@ a:hover { color: #036; }
 					/* Draft Grid */
 					
 					#draftBoard .draftRound {
-					list-style:none;
-					margin:0;}
+					list-style:none;}
 					
 					#draftBoard .draftRound li
 					 {
@@ -261,9 +266,9 @@ a:hover { color: #036; }
 					height:35px;
 					line-height:35px;
 					width:8.2%; /* for 12 teams */ 
-					-webkit-box-shadow:inset 0 0 1px #fff;
-					-moz-box-shadow:inset 0 0 1px #fff;
-					box-shadow:inset 0 0 1px #fff;
+					-webkit-box-shadow:inset 0 0 1px #000;
+					-moz-box-shadow:inset 0 0 1px #000;
+					box-shadow:inset 0 0 1px #000;
 					font-size:12px;
 					text-align:center;
 					color:#fff;
@@ -273,12 +278,81 @@ a:hover { color: #036; }
 					#draftBoard draftRoundHolder .draftRound:nth-of-type(even) {
 					background:red;}
 					
+				/* classes for drafted player boxes */
+				
+					.QB {
+					background-color: #0066CC;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#0066CC), to(#024487)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #0066CC, #024487); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(top, #0066CC, #024487); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #0066CC, #024487); /* IE10 */
+  background-image:      -o-linear-gradient(top, #0066CC, #024487); /* Opera 11.10+ */
+  background-image:         linear-gradient(top, #0066CC, #024487);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#0066CC', EndColorStr='#024487'); /* IE6–IE9 */;
+					}
+					
+					.RB {
+					background-color: #669933;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#669933), to(#2c5205)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #669933, #2c5205); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(top, #669933, #2c5205); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #669933, #2c5205); /* IE10 */
+  background-image:      -o-linear-gradient(top, #669933, #2c5205); /* Opera 11.10+ */
+  background-image:         linear-gradient(top, #669933, #2c5205);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#669933', EndColorStr='#2c5205'); /* IE6–IE9 */}
+					
+					.WR {
+					background-color: #003300;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#003300), to(#001f00)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #003300, #001f00); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(top, #003300, #001f00); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #003300, #001f00); /* IE10 */
+  background-image:      -o-linear-gradient(top, #003300, #001f00); /* Opera 11.10+ */
+  background-image:         linear-gradient(top, #003300, #001f00);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#003300', EndColorStr='#001f00'); /* IE6–IE9 */
+}
+					
+					.TE {
+					background-color: #cc0000;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#cc0000), to(#860000)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #cc0000, #860000); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(top, #cc0000, #860000); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #cc0000, #860000); /* IE10 */
+  background-image:      -o-linear-gradient(top, #cc0000, #860000); /* Opera 11.10+ */
+  background-image:         linear-gradient(top, #cc0000, #860000);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#cc0000', EndColorStr='#860000'); /* IE6–IE9 */}
+					
+					.DEf {
+					background-color: #ef7e05;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ef7e05), to(#984f01)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #ef7e05, #984f01); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(top, #ef7e05, #984f01); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #ef7e05, #984f01); /* IE10 */
+  background-image:      -o-linear-gradient(top, #ef7e05, #984f01); /* Opera 11.10+ */
+  background-image:         linear-gradient(top, #ef7e05, #984f01);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ef7e05', EndColorStr='#984f01'); /* IE6–IE9 */}
+					
+					.K {
+					background-color: #663333;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#663333), to(#521717)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #663333, #521717); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(top, #663333, #521717); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #663333, #521717); /* IE10 */
+  background-image:      -o-linear-gradient(top, #663333, #521717); /* Opera 11.10+ */
+  background-image:         linear-gradient(top, #663333, #521717);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#663333', EndColorStr='#521717'); /* IE6–IE9 */}
+					
+				
+					
 					
 
 
 /* misc style */
 
 .spacer {height:15px;}
+
+ul.zebra {
+	background:#red;}
 
 
 
