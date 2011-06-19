@@ -5,7 +5,13 @@ $(document).ready(function() {
 	var leagueId = 1;
 	var serverPath = '/DraftApp/';
 	
+	var teams;
+	var picks;
+	var round;
+	
 	$.getJSON(serverPath + 'league/1/getTeams.json', function(data) {
+		
+		teams = data;
 
 		var draftRounds = 12; // NOTE: Should be dynamic, static for now
 
@@ -53,11 +59,15 @@ $(document).ready(function() {
 		// Load the draft picks that have been made already
 		$.getJSON(serverPath + 'league/1/getDraftPicks.json', function(data) {
 			
+			picks = data;
+			
 			$.each(data, function(key, val) {
 				
 				addDraftPick(val);
 								
 			});
+			
+			updatePickInfo();
 		});
 		
 		
@@ -68,8 +78,67 @@ $(document).ready(function() {
 	var pusher = new Pusher('8aab2b64a30d6d627644');
 	var channel = pusher.subscribe('draftroom-1');
 	pusher.bind('PlayerDrafted', function(data) {
+		
+		picks.push(data);
+		
 		addDraftPick(data);
+		
+		updatePickInfo();
 	});
+	
+	function updatePickInfo() {
+				
+		var lastPick = picks[picks.length - 1];		
+
+		var onClockTeamID = getNextTeamID(lastPick.teamID, lastPick.round);
+		var onDeckTeamID = getNextTeamID(onClockTeamID, lastPick.round);
+		
+		var onClockTeam = teams[onClockTeamID - 1];
+		var onDeckTeam = teams[onDeckTeamID - 1];				
+		
+		$('#currentPickBox p.teamName').text(onClockTeam.name);
+		$('#onDeckBox p.teamName').text(onDeckTeam.name);
+		
+		$.getJSON(serverPath + 'teams/' + onDeckTeam.teamID + '/getPlayers.json', function(data) {
+			var lastTeamPick = data[data.length - 1];
+			if (lastTeamPick) {
+				$('#onDeckBox p.lastPick').text(lastTeamPick.name);
+			}
+		});		
+		
+		function getNextTeamID(teamID, round) {
+			
+			// If the round ended the last time this function was called, increment the round
+			if (this.roundEnd) {
+				round++;
+			}
+			
+			
+			if ((lastPick.round % 2) == 0) {
+				// If this is an even round, the last team to pick is team 1
+				if (lastPick.teamID != 1) {
+					// If this is not the last pick in the round, decrement the team
+					teamID--;
+					this.roundEnd = false;
+				} else {
+					this.roundEnd = true;
+				}
+			} else {
+				// If this is an odd round, the last team to pick is the last team
+				if (lastPick.teamId != teams.length) {
+					// If this is not the last pick in the round, increment the team
+					teamID++;
+					this.roundEnd = false;
+				} else {
+					this.roundEnd = true;
+				}
+			}
+			
+			return teamID;
+		}
+	}
+	
+
 	
 	function addDraftPick(pick) {
 		//round1team1
