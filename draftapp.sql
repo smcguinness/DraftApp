@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.0.1
+-- version 3.3.3
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jun 19, 2011 at 01:42 AM
--- Server version: 5.1.36
--- PHP Version: 5.3.0
+-- Host: localhost:3306
+-- Generation Time: Jun 19, 2011 at 12:33 PM
+-- Server version: 5.1.54
+-- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -954,7 +954,7 @@ CREATE TABLE IF NOT EXISTS `teamplayers` (
   `slot` int(11) NOT NULL,
   PRIMARY KEY (`pickID`),
   KEY `teamID` (`teamID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `teamplayers`
@@ -962,12 +962,18 @@ CREATE TABLE IF NOT EXISTS `teamplayers` (
 
 INSERT INTO `teamplayers` (`pickID`, `teamID`, `playerID`, `LeagueID`, `picktimestamp`, `round`, `slot`) VALUES
 (1, 2, 1096, 1, '2011-06-18 12:21:11', 1, 1),
-(8, 4, 520, 1, '2011-06-19 01:34:29', 1, 2),
 (7, 5, 1111, 1, '2011-06-18 19:45:15', 1, 3),
-(9, 4, 25, 1, '2011-06-19 01:35:00', 1, 2),
-(10, 4, 555, 1, '2011-06-19 01:35:47', 1, 2),
-(11, 4, 1233, 1, '2011-06-19 01:36:22', 1, 2),
-(12, 4, 516, 1, '2011-06-19 01:38:16', 1, 2);
+(8, 4, 516, 1, '2011-06-18 21:41:45', 1, 2),
+(9, 4, 517, 1, '2011-06-18 21:49:33', 1, 2),
+(10, 4, 527, 1, '2011-06-18 21:52:09', 1, 2),
+(11, 2, 521, 1, '2011-06-18 21:52:26', 1, 2),
+(12, 2, 523, 1, '2011-06-18 22:00:27', 1, 2),
+(13, 2, 525, 1, '2011-06-18 22:00:41', 1, 2),
+(14, 2, 633, 1, '2011-06-18 23:26:28', 1, 2),
+(15, 2, 10039, 1, '2011-06-18 23:27:10', 1, 2),
+(16, 2, 10049, 1, '2011-06-18 23:29:04', 1, 2),
+(17, 2, 6997, 1, '2011-06-18 23:31:04', 1, 2),
+(18, 2, 10059, 1, '2011-06-18 23:36:52', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -982,20 +988,22 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `draft_position` int(11) DEFAULT NULL,
   `isCommish` int(1) NOT NULL,
   PRIMARY KEY (`teamID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `teams`
 --
 
 INSERT INTO `teams` (`teamID`, `leagueID`, `name`, `draft_position`, `isCommish`) VALUES
-(1, 1, 'Aenean gravida', 7, 0),
-(2, 1, 'varius ultrices, mauris', 10, 0),
-(3, 1, 'aliquam', 1, 0),
-(4, 1, 'pede, ultrices a,', 5, 0),
-(5, 1, 'eu, euismod ac,', 6, 0),
-(6, 1, 'dolor sit', 6, 1),
-(7, 1, 'posuere,', 4, 0),
-(8, 1, 'ut, pellentesque eget,', 2, 0),
-(9, 1, 'aliquam arcu. Aliquam', 8, 0),
-(10, 1, 'lorem, eget mollis', 10, 0);
+(1, 1, 'Locker''d Out!', 7, 0),
+(2, 1, 'When It Waynes It Poors', 10, 0),
+(3, 1, 'Witten in the Stars', 1, 0),
+(4, 1, 'The Hillis Are Alive', 5, 0),
+(5, 1, 'The Golden Tate Bridge', 6, 0),
+(6, 1, 'Billy Ocean''s 11', 6, 1),
+(7, 1, 'Inglorious Packers', 4, 0),
+(8, 1, 'Roll Me a LaGarrette Blount', 2, 0),
+(9, 1, 'roddy''s white castle', 8, 0),
+(10, 1, 'Woodhead and shoulders', 10, 0),
+(11, 1, 'Bubbles in the Brees', 11, 0),
+(12, 1, 'Blair White Project', 12, 1);
