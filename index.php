@@ -86,11 +86,11 @@ class API {
 	
 	static public function draftPlayer($id){
 		
-		$playerid = $_POST['player_id'];
-		$leagueid = $_POST['league_id'];
+		$playerid = $_POST["player_id"];
+		$leagueid = $_POST["league_id"];
 		$timestamp = date("Y-m-d H:i:s", time());
-		$round = $_POST['round'];
-		$slot = $_POST['slot'];
+		$round = $_POST["round"];
+		$slot = $_POST["slot"];
 		
 		$StatusCode = new StatusCodes();
 
@@ -98,8 +98,9 @@ class API {
 			$draftPick = new DraftSelection($id, $playerid, $leagueid, $timestamp, $round, $slot);
 			$pickid = $draftPick->insertDraftSelection();
 			header($StatusCode->httpHeaderFor('200'));
-			$pickInfo = DraftSelection::getDraftSelection($id);
-			echo json_encode($pickInfo);
+			$pickInfo = DraftSelection::getDraftSelection($pickid);
+			$pusher = new Pusher('8aab2b64a30d6d627644', '3622b085f13686b6ab57', '6065');
+			$pusher->trigger('draftroom-'.$leagueid, 'PlayerDrafted', $pickInfo);
 		}else{
 			header('Content-Type: application/json');
 			header($StatusCode->httpHeaderFor('401'));
