@@ -90,21 +90,27 @@ $(document).ready(function() {
 				
 		var lastPick = picks[picks.length - 1];		
 
-		var onClockTeamID = getNextTeamID(lastPick.teamID, lastPick.round);
-		var onDeckTeamID = getNextTeamID(onClockTeamID, lastPick.round);
+		var onClockPickInfo = getNextTeamID(lastPick.teamID, lastPick.round);
+		var onDeckPickInfo = getNextTeamID(onClockPickInfo.teamID, onClockPickInfo.round);
 		
-		var onClockTeam = teams[onClockTeamID - 1];
-		var onDeckTeam = teams[onDeckTeamID - 1];				
+		var onClockTeam = teams[onClockPickInfo.teamID - 1];
+		var onDeckTeam = teams[onDeckPickInfo.teamID - 1];				
 		
 		$('#currentPickBox p.teamName').text(onClockTeam.name);
 		$('#onDeckBox p.teamName').text(onDeckTeam.name);
+		
+		$('#round i').text(onClockPickInfo.round);
+		$('#pick i').text(onClockPickInfo.pick);
 		
 		$.getJSON(serverPath + 'teams/' + onDeckTeam.teamID + '/getPlayers.json', function(data) {
 			var lastTeamPick = data[data.length - 1];
 			if (lastTeamPick) {
 				$('#onDeckBox p.lastPick').text(lastTeamPick.name);
 			}
-		});		
+		});
+		
+		// Calculate the pick number in the round
+		// $('#round i').text()
 		
 		function getNextTeamID(teamID, round) {
 			
@@ -113,6 +119,7 @@ $(document).ready(function() {
 				round++;
 			}
 			
+			var pick;
 			
 			if ((lastPick.round % 2) == 0) {
 				// If this is an even round, the last team to pick is team 1
@@ -123,6 +130,8 @@ $(document).ready(function() {
 				} else {
 					this.roundEnd = true;
 				}
+				
+				pick = teams.length - teamID + 1;
 			} else {
 				// If this is an odd round, the last team to pick is the last team
 				if (lastPick.teamId != teams.length) {
@@ -132,9 +141,17 @@ $(document).ready(function() {
 				} else {
 					this.roundEnd = true;
 				}
+				
+				pick = teamID;
 			}
 			
-			return teamID;
+			
+			
+			return { 
+				teamID: teamID, 
+				round: round,
+				pick: pick
+			};
 		}
 	}
 	
@@ -202,14 +219,17 @@ $(document).ready(function() {
 		for (var i = 0; i < streams.length; i++) {
 			var stream = streams[i];
 			
-			var div = document.createElement('div');
-			div.setAttribute('id', 'stream-' + stream.streamid);
-			
-			$('#videoContainer-' + stream.name).append(div);
-			
-			session.subscribe(stream, div.id, { width: 75, height: 75 });
-			
-			streamCount++;
+			// Must have a name set
+			if (stream.name) {
+				var div = document.createElement('div');
+				div.setAttribute('id', 'stream-' + stream.streamId);
+
+				$('#videoContainer-' + stream.name).append(div);
+
+				session.subscribe(stream, div.id, { width: 75, height: 75 });
+
+				streamCount++;				
+			}
 		}
 	}
 	
