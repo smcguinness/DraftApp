@@ -119,7 +119,7 @@ a:hover { color: #036; }
 	
 			section #pickInfo .infoBox {
 			background:rgba(255,255,255,.1);
-			height:175px;
+			min-height:175px;
 			-webkit-border-radius:15px;
 			-moz-border-radius:15px;
 			border-radius:15px;		}
@@ -168,7 +168,8 @@ a:hover { color: #036; }
 					
 					}
 					
-					#currentPickBox div.teamPic, #onDeckBox div.teamPic {
+					div.teamPic {
+						background: #444;
 					float:left;
 					width:75px;
 					height:75px;
@@ -208,27 +209,77 @@ a:hover { color: #036; }
 						#onDeckBox p.lastPick i {
 						font-style:italic;}
 				
-					
-					
-					
-					
-				
 	
 	
 /* draft board */
 
-		section div#draftTable {
+		
+
+		section div#boardContainer {
 			background:rgba(255,255,255,.1);
 			height:500px;
 			-webkit-border-radius:15px;
 			-moz-border-radius:15px;
 			border-radius:15px;
 		}
+		
+			section div#draftBoard {
+			width:100%;
+			height:250px;}
+			
+				#draftBoard #teamList {
+					list-style:none;
+					text-align:center;
+				}
+				
+					#draftBoard #teamList li {
+					float:left;
+					display:block;
+					width:8.2%; /* for 12 teams */ 
+					text-align:center;
+					margin-top:5px;
+					padding:5px 0 5px;
+					color:#fff;
+					-webkit-box-shadow:inset 0 0 1px #fff;
+					-moz-box-shadow:inset 0 0 1px #fff;
+					box-shadow:inset 0 0 1px #fff;
+					}
+					
+					#teamList li img {
+						display:block;
+						margin:0 auto;}
+					
+					/* Draft Grid */
+					
+					#draftBoard .draftRound {
+					list-style:none;
+					margin:0;}
+					
+					#draftBoard .draftRound li
+					 {
+					float:left;
+					display:block;
+					height:35px;
+					line-height:35px;
+					width:8.2%; /* for 12 teams */ 
+					-webkit-box-shadow:inset 0 0 1px #fff;
+					-moz-box-shadow:inset 0 0 1px #fff;
+					box-shadow:inset 0 0 1px #fff;
+					font-size:12px;
+					text-align:center;
+					color:#fff;
+										
+					}
+					
+					#draftBoard draftRoundHolder .draftRound:nth-of-type(even) {
+					background:red;}
+					
+					
 
 
 /* misc style */
 
-.spacer {height:15px;
+.spacer {height:15px;}
 
 
 
