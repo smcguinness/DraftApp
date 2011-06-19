@@ -1,4 +1,107 @@
 $(document).ready(function() {
+	
+	
+	
+	var leagueId = 1;
+	var serverPath = '/DraftApp/';
+	
+	$.getJSON(serverPath + 'league/1/getTeams.json', function(data) {
+
+		var draftRounds = 12; // NOTE: Should be dynamic, static for now
+
+		// Create the draft pick grid
+		for (var i = 0; i < draftRounds; i++) {
+			var ul = $('<ul />', {
+				'class': 'draftRound'
+			});
+			
+			$.each(data, function(key, val) {
+				var li = $('<li />', {
+					'class': 'draftPick',
+					'id': 'round' + (i + 1) + 'team' + val.teamID
+				});
+				
+				$(ul).append(li);
+			});
+			
+			$('#draftRoundHolder').append(ul);
+		}
+		
+		// Create the team row
+		$.each(data, function(key, val) {
+			console.log('adding list item');
+			var li = $('<li />');
+			
+			var h3 = $('<h3 />', {
+				'text': val.name
+			});
+			
+			$(li).append(h3);
+			
+			// These are the divs for the OpenTok streams to go in
+			var div = $('<div />', {
+				'id': 'videoContainer-' + val.teamID,
+				'class': 'teamPic'
+			});
+			
+			$(li).append(div);
+			
+			$('#teamList').append(li);
+				
+		});
+		
+		// Load the draft picks that have been made already
+		$.getJSON(serverPath + 'league/1/getDraftPicks.json', function(data) {
+			
+			$.each(data, function(key, val) {
+				
+				addDraftPick(val);
+								
+			});
+		});
+		
+		
+		// Connect to openTok session after divs are created		
+		session.connect(apiKey, token);
+	});
+	
+	var pusher = new Pusher('8aab2b64a30d6d627644');
+	var channel = pusher.subscribe('draftroom-1');
+	pusher.bind('PlayerDrafted', function(data) {
+		addDraftPick(data);
+	});
+	
+	function addDraftPick(pick) {
+		//round1team1
+		
+		var pickDiv = $('#round' + pick.round + 'team' + pick.teamID);
+		
+		var playerDiv = $('<div />', {
+			'class': 'pick ' + pick.position
+		});
+		
+		var playerName = $('<h3 />', {
+			'text': pick.name
+		});
+		
+		var playerPosition = $('<span />', {
+			'class': 'playerPosition',
+			'text': pick.position
+		});
+		
+		var playerTeam = $('<span />', {
+			'class': 'playerTeam',
+			'text': pick.team
+		});
+		
+		$(playerDiv).append(playerName);
+		$(playerDiv).append(playerPosition);
+		$(playerDiv).append(playerTeam);
+		
+		$(pickDiv).append(playerDiv);
+	}
+	
+	
 
 	var sessionId = '28757622dbf26a5a7599c2d21323765662f1d436';
 	var token = 'devtoken';
@@ -13,8 +116,6 @@ $(document).ready(function() {
 	session.addEventListener('sessionConnected', sessionConnectedHandler);
 	session.addEventListener('streamCreated', streamCreatedHandler);
 	session.addEventListener('streamDestroyed', streamDestroyedHandler);
-	
-	session.connect(apiKey, token);
 	
 	function sessionConnectedHandler(event) {
 		subscribeToStreams(event.streams);
@@ -35,17 +136,7 @@ $(document).ready(function() {
 			var div = document.createElement('div');
 			div.setAttribute('id', 'stream-' + stream.streamid);
 			
-			switch (streamCount) {
-				case 0:
-					$('#currentPickSubscriber').append(div);
-					break;
-				case 1:
-					$('#onDeckSubscriber').append(div);
-					break;
-				default:
-					$('body').append(div);
-					break;
-			}
+			$('#videoContainer-' + stream.name).append(div);
 			
 			session.subscribe(stream, div.id, { width: 75, height: 75 });
 			

@@ -10,16 +10,17 @@ require('lib/Pusher.php');
 
 Epi::setPath('base', 'src');
 Epi::init('route', 'api','database');
-EpiDatabase::employ('mysql','draftapp','localhost','draftapp_db','swdfw');
+//EpiDatabase::employ('mysql','draftapp','localhost','draftapp_db','swdfw');
+EpiDatabase::employ('mysql','draftapp','localhost','root','root');
 
-Epi::init('api');
+getApi()->get('/players.json', array('API', 'getAllPlayers'), EpiApi::external);
+getApi()->get('/players/(\d+).json', array('API', 'getPlayer'), EpiApi::external);
+getApi()->get('/players/(\d+)/getAvailability.json', array('API', 'getAvailability'), EpiApi::external);
+getApi()->get('/teams/(\d+)/getPlayers.json', array('API', 'getTeamPlayers'), EpiApi::external);
+getApi()->post('/teams/(\d+)/draftPlayer.json', array('API', 'draftPlayer'), EpiApi::external);
+getApi()->get('/league/(\d+)/getDraftPicks.json', array('API', 'getAllDraftPicks'), EpiApi::external);
+getApi()->get('/league/(\d+)/getTeams.json', array('API', 'getTeams'), EpiApi::external);
 getRoute()->get('/ImportPlayers.xml', array('Site', 'ImportPlayers'));
-getRoute()->get('/players.json', array('API', 'getAllPlayers'));
-getRoute()->get('/players/(\d+).json', array('API', 'getPlayer'));
-getRoute()->get('/teams/(\d+)/getPlayers.json', array('API', 'getTeamPlayers'));
-getRoute()->post('/teams/(\d+)/draftPlayer.json', array('API', 'draftPlayer'));
-getRoute()->get('/league/(\d+)/getDraftPicks.json', array('API', 'getAllDraftPicks'));
-getRoute()->get('/league/(\d+)/getTeams.json', array('API', 'getTeams'));
 getRoute()->get('/', array('Site', 'home'));
 getRoute()->run();
 
@@ -27,7 +28,12 @@ class Site {
 
 	static public function home(){
 		
-		echo 'hello world';
+		$players = getApi()->invoke('/players.json');	
+		
+		foreach($players as $player){
+			echo $player["name"];
+			exit;
+		}
 		
 	}
 	
@@ -61,26 +67,31 @@ class API {
 
 	static public function getAllPlayers(){
 		
-		$players = getDatabase()->all('SELECT * FROM players');
-		header('Content-Type: application/json');
-		echo json_encode($players);	
+		
+		$players = getDatabase()->all('SELECT * FROM Players');
+		return $players;
 	}
 	
 	static public function getPlayer($id){
 		
 		$player = Player::getPlayerByID($id);
 
-		header('Content-Type: application/json');
-		echo json_encode($player);	
+		return $player;	
 		
+	}
+	static public function getAvailability($id){
+		
+		$leagueid = $_GET["league_id"];
+		
+		return Player::isPlayerAvailable($id, $leagueid);
+	
 	}
 	
 	static public function getTeamPlayers($id){
 		
 		$players = Player::getPlayerByTeam($id);
 		
-		header('Content-Type: application/json');
-		echo json_encode($players);	
+		return $players;	
 		
 	}
 	
@@ -112,14 +123,12 @@ class API {
 	static public function getAllDraftPicks($id){
 		
 		$players = Player::getPlayerByLeague($id);
-		header('Content-Type: application/json');
-		echo json_encode($players);	
+		return $players;	
 	}
 	
 	static public function getTeams($id){
 		$teams = Team::getTeamByLeague($id);
-		header('Content-Type: application/json');
-		echo json_encode($teams);	
+		return $teams;	
 	}
 	
 	

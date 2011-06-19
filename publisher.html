@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>This is just the code to publish streams for now</title>
+	<script src="http://staging.tokbox.com/v0.91/js/TB.min.js"></script>
+	<script type="text/javascript">
+	
+		var teamId = prompt('Enter the team id (note: would normally be done loaded automatically)');
+		
+		var apiKey = 413302;
+		var sessionId = '28757622dbf26a5a7599c2d21323765662f1d436';
+		var token = 'devtoken';
+		
+		TB.setLogLevel(TB.DEBUG);
+		
+		var session = TB.initSession(sessionId);
+		
+		session.addEventListener('sessionConnected', sessionConnectedHandler);
+		
+		session.connect(apiKey, token);
+		
+		function sessionConnectedHandler(event) {
+			console.log('connected');
+			session.publish('publisher', { name: teamId });
+		}
+	
+	</script>
+</head>
+
+<body>
+
+	<div id='publisher'></div>
+
+</body>
+</html>
