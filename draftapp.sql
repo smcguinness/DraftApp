@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Jun 19, 2011 at 12:33 PM
+-- Generation Time: Jun 19, 2011 at 12:37 PM
 -- Server version: 5.1.54
 -- PHP Version: 5.2.6
 
@@ -25,6 +25,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `league`
 --
 
+DROP TABLE IF EXISTS `league`;
 CREATE TABLE IF NOT EXISTS `league` (
   `leagueID` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -44,6 +45,7 @@ INSERT INTO `league` (`leagueID`, `name`) VALUES
 -- Table structure for table `players`
 --
 
+DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
   `playerID` bigint(10) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -944,6 +946,7 @@ INSERT INTO `players` (`playerID`, `name`, `position`, `team`, `status`) VALUES
 -- Table structure for table `teamplayers`
 --
 
+DROP TABLE IF EXISTS `teamplayers`;
 CREATE TABLE IF NOT EXISTS `teamplayers` (
   `pickID` bigint(20) NOT NULL AUTO_INCREMENT,
   `teamID` bigint(20) NOT NULL,
@@ -981,6 +984,7 @@ INSERT INTO `teamplayers` (`pickID`, `teamID`, `playerID`, `LeagueID`, `picktime
 -- Table structure for table `teams`
 --
 
+DROP TABLE IF EXISTS `teams`;
 CREATE TABLE IF NOT EXISTS `teams` (
   `teamID` bigint(20) NOT NULL AUTO_INCREMENT,
   `leagueID` bigint(20) NOT NULL,
@@ -1006,4 +1010,4 @@ INSERT INTO `teams` (`teamID`, `leagueID`, `name`, `draft_position`, `isCommish`
 (9, 1, 'roddy''s white castle', 8, 0),
 (10, 1, 'Woodhead and shoulders', 10, 0),
 (11, 1, 'Bubbles in the Brees', 11, 0),
-(12, 1, 'Blair White Project', 12, 1);
+(12, 1, 'Blair White Project', 12, 0);
