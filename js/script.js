@@ -35,13 +35,35 @@ $(document).ready(function() {
 	
 	$.getJSON('/DraftApp/league/1/getTeams.json', function(data) {
 
-		
+		var draftRounds = 12; // NOTE: Should be dynamic, static for now
+
+		// Create the HTML for the draft picks
+		for (var i = 0; i < draftRounds; i++) {
+			var ul = $('<ul />', {
+				'class': 'draftRound'
+			});
+			
+			$.each(data, function(key, val) {
+				var li = $('<li />', {
+					'class': 'draftPick',
+					'id': 'round' + (i + 1) + 'team' + val.teamID
+				});
+				
+				$(ul).append(li);
+			});
+			
+			$('#draftRoundHolder').append(ul);
+		}
 		
 		$.each(data, function(key, val) {
 			console.log('adding list item');
-			var li = $('<li />', {
-				text: val.name
+			var li = $('<li />');
+			
+			var h3 = $('<h3 />', {
+				'text': val.name
 			});
+			
+			$(li).append(h3);
 			
 			// These are the divs for the OpenTok streams to go in
 			var div = $('<div />', {
@@ -52,6 +74,9 @@ $(document).ready(function() {
 			$(li).append(div);
 			
 			$('#teamList').append(li);
+			
+			
+			
 		});
 		
 		
