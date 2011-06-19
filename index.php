@@ -10,7 +10,7 @@ require('lib/Pusher.php');
 
 Epi::setPath('base', 'src');
 Epi::init('route', 'api','database');
-EpiDatabase::employ('mysql','draftapp','localhost','root','');
+EpiDatabase::employ('mysql','draftapp','localhost','draftapp_db','swdfw');
 
 Epi::init('api');
 getRoute()->get('/ImportPlayers.xml', array('Site', 'ImportPlayers'));
