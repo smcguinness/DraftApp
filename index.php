@@ -10,8 +10,8 @@ require('lib/Pusher.php');
 
 Epi::setPath('base', 'src');
 Epi::init('route', 'api','database');
-EpiDatabase::employ('mysql','draftapp','localhost','draftapp_db','swdfw');
-//EpiDatabase::employ('mysql','draftapp','localhost','root','');
+//EpiDatabase::employ('mysql','draftapp','localhost','draftapp_db','swdfw');
+EpiDatabase::employ('mysql','draftapp','localhost','root','root');
 
 getApi()->get('/players.json', array('API', 'getAllPlayers'), EpiApi::external);
 getApi()->get('/players/(\d+).json', array('API', 'getPlayer'), EpiApi::external);

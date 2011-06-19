@@ -1,43 +1,15 @@
 $(document).ready(function() {
 	
+	
+	
 	var leagueId = 1;
+	var serverPath = '/DraftApp/';
 	
-	console.log('script');
-	
-	// Helper object for sorting teams by draft position
-	/*
-	var arrange = {
-
-	    byObjectsAttribute:function(name){
-	        return function(obj1,obj2){
-	            var n1;
-	            var n2;
-	            if(typeof obj1 === 'object' && typeof obj2 === 'object' && obj1 && obj2){
-	                n1 = obj1[name];
-	                n2 = obj2[name];
-	                if(n1 === n2){
-	                    return obj1;
-	                }
-	                if(typeof n1 === typeof n2){
-	                    return n1 < n2 ? -1 : 1;
-	                }
-	            }else{
-	                throw{
-	                    name: 'Error',
-	                    message: 'Expected object when sorting by ' + name
-	                };
-	            }
-	        };
-	    }
-
-	};
-	*/
-	
-	$.getJSON('/DraftApp/league/1/getTeams.json', function(data) {
+	$.getJSON(serverPath + 'league/1/getTeams.json', function(data) {
 
 		var draftRounds = 12; // NOTE: Should be dynamic, static for now
 
-		// Create the HTML for the draft picks
+		// Create the draft pick grid
 		for (var i = 0; i < draftRounds; i++) {
 			var ul = $('<ul />', {
 				'class': 'draftRound'
@@ -55,6 +27,7 @@ $(document).ready(function() {
 			$('#draftRoundHolder').append(ul);
 		}
 		
+		// Create the team row
 		$.each(data, function(key, val) {
 			console.log('adding list item');
 			var li = $('<li />');
@@ -74,8 +47,11 @@ $(document).ready(function() {
 			$(li).append(div);
 			
 			$('#teamList').append(li);
-			
-			
+				
+		});
+		
+		// Load the draft picks that have been made already
+		$.getJSON(serverPath + 'league/1/getDraftPicks.json', function(data) {
 			
 		});
 		
