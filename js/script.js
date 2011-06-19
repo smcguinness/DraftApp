@@ -53,12 +53,53 @@ $(document).ready(function() {
 		// Load the draft picks that have been made already
 		$.getJSON(serverPath + 'league/1/getDraftPicks.json', function(data) {
 			
+			$.each(data, function(key, val) {
+				
+				addDraftPick(val);
+								
+			});
 		});
 		
 		
 		// Connect to openTok session after divs are created		
 		session.connect(apiKey, token);
 	});
+	
+	var pusher = new Pusher('8aab2b64a30d6d627644');
+	var channel = pusher.subscribe('draftroom-1');
+	pusher.bind('PlayerDrafted', function(data) {
+		addDraftPick(data);
+	});
+	
+	function addDraftPick(pick) {
+		//round1team1
+		
+		var pickDiv = $('#round' + pick.round + 'team' + pick.teamID);
+		
+		var playerDiv = $('<div />', {
+			'class': 'pick ' + pick.position
+		});
+		
+		var playerName = $('<h3 />', {
+			'text': pick.name
+		});
+		
+		var playerPosition = $('<span />', {
+			'class': 'playerPosition',
+			'text': pick.position
+		});
+		
+		var playerTeam = $('<span />', {
+			'class': 'playerTeam',
+			'text': pick.team
+		});
+		
+		$(playerDiv).append(playerName);
+		$(playerDiv).append(playerPosition);
+		$(playerDiv).append(playerTeam);
+		
+		$(pickDiv).append(playerDiv);
+	}
 	
 	
 
