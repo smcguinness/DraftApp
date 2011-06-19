@@ -19,7 +19,7 @@ getApi()->get('/players/(\d+)/getAvailability.json', array('API', 'getAvailabili
 getApi()->get('/teams/(\d+)/getPlayers.json', array('API', 'getTeamPlayers'), EpiApi::external);
 getApi()->post('/teams/(\d+)/draftPlayer.json', array('API', 'draftPlayer'), EpiApi::external);
 getApi()->get('/league/(\d+)/getDraftPicks.json', array('API', 'getAllDraftPicks'), EpiApi::external);
-getApi()->get('/league/(\d+)/getTeams.json', array('API', 'getTeams'));
+getApi()->get('/league/(\d+)/getTeams.json', array('API', 'getTeams'), EpiApi::external);
 getRoute()->get('/ImportPlayers.xml', array('Site', 'ImportPlayers'));
 getRoute()->get('/', array('Site', 'home'));
 getRoute()->run();
