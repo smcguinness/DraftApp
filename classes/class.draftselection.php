@@ -32,8 +32,8 @@ class DraftSelection {
 		return $pickid = getDatabase()->execute('INSERT INTO teamplayers (teamID,playerID,LeagueID,picktimestamp,round,slot) VALUES('.$this->teamid.','.$this->playerid.','.$this->leagueid.',\''.$this->timestamp.'\','.$this->round.','.$this->slot.')');
 	 }
 	 
-	 public function updateLeauge(){
-		$playerid = getDatabase()->execute('UPDATE league SET name = '.$this->name.'WHERE leagueID = '.$this->id);
+	 public function getDraftSelection($id){
+		return $DraftPick = getDatabase()->one('SELECT * FROM teamplayers JOIN players ON players.playerid = teamplayers.playerid WHERE pickID = '.$id);
 	 }
 	 
 }
